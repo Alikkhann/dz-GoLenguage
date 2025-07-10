@@ -15,17 +15,6 @@ func main() {
 	// fmt.Println(usrInp)
 	//error1, error2, error3 := errorExams(usrInp1, usrInp2, usrInp3)
 	usrInp1, usrInp2, usrInp3 := userInput()
-	switch { 
-	case usrInp1 != "USD" && usrInp1 != "EUR" && usrInp1 != "RUB": 
-		fmt.Println("Вы ввели неправильную валюту. Валюта для конвертации(USD/RUB/EUR)")
-		fmt.Scan(&usrInp1)
-	case usrInp2 < 0: 
-		fmt.Println("Введите сумму для конвертации")
-		fmt.Scan(&usrInp2)
-	case usrInp3 != "USD" && usrInp3 != "EUR" && usrInp3 != "RUB": 
-		fmt.Println("Вы ввели неправильную валюту. Валюта для конвертации(USD/RUB/EUR)")
-		fmt.Scan(&usrInp3)
-	}
 	result := converter(usrInp1, usrInp2, usrInp3)
 	fmt.Print(result)
 }
@@ -34,7 +23,9 @@ func userInput() (string, float64, string) {
 	var valut string
 	var sum float64
 	var targValut string
-
+if valut == targValut {
+	fmt.Print(valut)
+}
 for valut != "USD" && valut != "RUB" && valut != "EUR" {
 	fmt.Println("Введите валюту для конвертации(USD/RUB/EUR)")
 	fmt.Scan(&valut)
@@ -44,10 +35,10 @@ for valut != "USD" && valut != "RUB" && valut != "EUR" {
 	}
 }
 for sum <= 0 {
-	fmt.Println("Введите число")
+	fmt.Println("Введите число!")
 	fmt.Scan(&sum)
-	if sum < 0 {
-		fmt.Println("Неправильный ввод! Введите сумму для конвертации")
+	if sum <= 0 {
+		fmt.Println("Неправильный ввод!")
 		//fmt.Scan(&sum)
 	}
 }
@@ -65,6 +56,12 @@ for targValut != "USD" && targValut != "RUB" && targValut != "EUR" {
 func converter(valut string, sum float64, targValut string) float64 {
 	var res float64
 	switch {
+	case valut == targValut && valut == "USD":
+		res = sum
+	case valut == targValut && valut == "EUR":
+		res = sum
+	case valut == targValut && valut == "RUB":
+		res = sum
 	case valut == "USD" && targValut == "EUR":
 		res = USDToEUR * sum
 	case valut == "USD" && targValut == "RUB":
