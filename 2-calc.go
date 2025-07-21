@@ -40,6 +40,7 @@ func scanCalculation() (string, []int){
 			newSlice = append(newSlice, elem)
 		}
 	}
+	
 	return operation, newSlice
 }
 
