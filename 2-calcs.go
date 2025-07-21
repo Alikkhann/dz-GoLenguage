@@ -81,21 +81,3 @@ func MEDoperation(arr []int) {
 		fmt.Print(res)
 	}	
 }
-
-
-
-
-
-
-
-
-// arr[] int = {4, 1, 8, 5, 2}
-// min := arr[0]
-// if min < value {
-// 	temp = min
-// 	min = value
-// 	value = temp
-// }
-
-
-
