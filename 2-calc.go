@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+	"strings"
+)
 
 func main() {
 	operation, arr := scanCalculation() 
@@ -13,31 +17,35 @@ func main() {
 	}
 }
 
-func scanCalculation() (string, []float64){
+func scanCalculation() (string, []int){
 	var operation string
-	var arr []float64
-	var element float64
-
+	var numsStr string
+	var newSlice []int
+	
 	fmt.Print("Выберите нужную операцию:(AVG/SUM/MED) ")
 	fmt.Scan(&operation)
-	if operation != "AVG" && operation != "SUM" && operation != "MED" {
+	for operation != "AVG" && operation != "SUM" && operation != "MED" {
 		fmt.Print("Вы ввели неправильную операцию.")
-		scanCalculation()
+		fmt.Scan(&operation)
 	}
-	fmt.Print("Введите числа: ")
-	for {
-		fmt.Scan(&element)
-		if element == 0 {
-			break
+	fmt.Print("Введите числа через запятую: ")
+	fmt.Scanln(&numsStr)
+	parts := strings.Split(numsStr, ",")
+	for _, value := range parts {
+		elem, err := strconv.Atoi(value)
+		if err != nil {
+			fmt.Print("Ошибка")
+			continue
+		}else{
+			newSlice = append(newSlice, elem)
 		}
-		arr = append(arr, element)
 	}
-	return operation, arr
+	return operation, newSlice
 }
 
-func AVGoperation(arr []float64) {
-	res := 0.0
-	count := 0.0
+func AVGoperation(arr []int) {
+	res := 0
+	count := 0
 	for _, value := range arr {
 		res += value
 		count++
@@ -45,15 +53,15 @@ func AVGoperation(arr []float64) {
 	fmt.Println(res/count)
 }
 
-func SUMoperation(arr []float64) {
-	res := 0.0
+func SUMoperation(arr []int) {
+	res := 0
 	for _, value := range arr {
 		res += value
 	}
 	fmt.Println(res)
 }
 
-func MEDoperation(arr []float64) {
+func MEDoperation(arr []int) {
 	slice := arr[:]
 	ln := len(slice)
 	for i := 0; i < ln; i++ {
