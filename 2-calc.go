@@ -31,9 +31,9 @@ func scanCalculation() (string, []int){
 		fmt.Print("Вы ввели неправильную операцию.")
 		fmt.Scan(&operation)
 	}
+	fmt.Print("Введите числа через запятую: ")
 
 	for {
-		fmt.Print("Введите числа через запятую: ")
 		reader := bufio.NewReader(os.Stdin)
 		numsStr, _ := reader.ReadString('\n')
 		parts := strings.Split(numsStr, ",")
@@ -42,11 +42,15 @@ func scanCalculation() (string, []int){
 			elem, err := strconv.Atoi(trims)
 			if err != nil {
 				errorCount++
+				continue
 			}
 			newSlice = append(newSlice, elem)
 		}
 
-	if errorCount == len(newSlice) {
+	if errorCount != 0 {
+		fmt.Print("Ошибка! Введите числа через запятую: ")
+		errorCount = 0
+		newSlice = nil
 		continue
 	}else {
 		break
@@ -57,13 +61,13 @@ func scanCalculation() (string, []int){
 
 func AVGoperation(arr []int) {
 	if len(arr) != 0 {
-	res := 0
-	count := 0
+	res := 0.0
+	count := 0.0
 	for _, value := range arr {
-		res += value
+		res += float64(value)
 		count++
 	}
-	fmt.Println(res/count)
+	fmt.Printf("%.2f\n", res/count)
 	}else {
 		fmt.Print("Массив не содержит элементов!")
 	}
