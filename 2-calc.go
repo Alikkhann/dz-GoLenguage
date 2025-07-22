@@ -1,13 +1,16 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 )
 
 func main() {
 	operation, arr := scanCalculation() 
+	
 	if operation == "AVG" {
 		AVGoperation(arr)
 	}else if operation == "SUM" {
@@ -19,32 +22,41 @@ func main() {
 
 func scanCalculation() (string, []int){
 	var operation string
-	var numsStr string
 	var newSlice []int
-	
+	var errorCount int = 0
+
 	fmt.Print("Выберите нужную операцию:(AVG/SUM/MED) ")
 	fmt.Scan(&operation)
 	for operation != "AVG" && operation != "SUM" && operation != "MED" {
 		fmt.Print("Вы ввели неправильную операцию.")
 		fmt.Scan(&operation)
 	}
-	fmt.Print("Введите числа через запятую: ")
-	fmt.Scanln(&numsStr)
-	parts := strings.Split(numsStr, ",")
-	for _, value := range parts {
-		elem, err := strconv.Atoi(value)
-		if err != nil {
-			fmt.Print("Ошибка")
-			continue
-		}else{
+
+	for {
+		fmt.Print("Введите числа через запятую: ")
+		reader := bufio.NewReader(os.Stdin)
+		numsStr, _ := reader.ReadString('\n')
+		parts := strings.Split(numsStr, ",")
+		for _, value := range parts {
+			trims := strings.TrimSpace(value)
+			elem, err := strconv.Atoi(trims)
+			if err != nil {
+				errorCount++
+			}
 			newSlice = append(newSlice, elem)
 		}
+
+	if errorCount == len(newSlice) {
+		continue
+	}else {
+		break
 	}
-	
+	}
 	return operation, newSlice
 }
 
 func AVGoperation(arr []int) {
+	if len(arr) != 0 {
 	res := 0
 	count := 0
 	for _, value := range arr {
@@ -52,6 +64,9 @@ func AVGoperation(arr []int) {
 		count++
 	}
 	fmt.Println(res/count)
+	}else {
+		fmt.Print("Массив не содержит элементов!")
+	}
 }
 
 func SUMoperation(arr []int) {
