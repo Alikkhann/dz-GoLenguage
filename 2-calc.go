@@ -42,14 +42,15 @@ func scanCalculation() (string, []int){
 			elem, err := strconv.Atoi(trims)
 			if err != nil {
 				errorCount++
-			}else {
-			newSlice = append(newSlice, elem)
+				continue
 			}
+			newSlice = append(newSlice, elem)
 		}
 
 	if errorCount != 0 {
 		fmt.Print("Ошибка! Введите числа через запятую: ")
 		errorCount = 0
+		newSlice = nil
 		continue
 	}else {
 		break
