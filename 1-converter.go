@@ -3,15 +3,10 @@ package main
 import (
 	"fmt"
 )
-	const USDToEUR = 0.853
-	const USDToRUB = 78.17
-	const EURToRUB = USDToRUB/USDToEUR //91.64
-	const EURToUSD = 1.17
-  const RUBToUSD = 0.012
-	const RUBToEUR = 0.10
+
 
 func main() {
-	usrInp1, usrInp2, usrInp3 := userInput()
+  usrInp1, usrInp2, usrInp3 := userInput()
 	result := converter(usrInp1, usrInp2, usrInp3)
 	convertResult(usrInp1, usrInp2, usrInp3, result)
 }
@@ -61,29 +56,13 @@ return valut, sum, targValut
 }
 
 func converter(valut string, sum float64, targValut string) float64 {
-	var res float64
-	switch {
-	case valut == targValut && valut == "USD":
-		res = sum
-	case valut == targValut && valut == "EUR":
-		res = sum
-	case valut == targValut && valut == "RUB":
-		res = sum
-	case valut == "USD" && targValut == "EUR":
-		res = USDToEUR * sum
-	case valut == "USD" && targValut == "RUB":
-		res = USDToRUB * sum
-	case valut == "EUR" && targValut == "USD":
-		res = EURToUSD * sum
-	case valut == "EUR" && targValut == "RUB":
-		res = EURToRUB * sum
-	case valut == "RUB" && targValut == "USD":
-		res = RUBToUSD * sum
-	case valut == "RUB" && targValut == "EUR":
-		res = RUBToEUR * sum
-	default:
-		fmt.Println("Неправильный ввод!")
+  res := 0.0
+	m := map[string]map[string]float64 {
+		"USD": {"EUR": 0.853, "RUB": 78.17},
+		"RUB": {"USD": 0.012, "EUR": 0.10},
+		"EUR": {"USD": 1.17, "RUB": 91.64},
 	}
+	res = sum * m[valut][targValut]
 return res
 }
 
@@ -137,3 +116,12 @@ return sum
 	// 	}
 	// 	return nil, nil, nil
 	// }
+
+// func converterr() {
+// 	m := map[string]float64 {
+// 		"RUB": 1,
+// 		"USD": 78.17,
+// 		"EUR": 91.64,
+// 	} 
+// 	fmt.Print(m["USD"])
+// }
