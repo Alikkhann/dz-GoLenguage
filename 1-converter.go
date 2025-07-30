@@ -4,44 +4,35 @@ import (
 	"fmt"
 )
 
-
 func main() {
-  usrInp1, usrInp2, usrInp3 := userInput()
-	result := converter(usrInp1, usrInp2, usrInp3)
-	convertResult(usrInp1, usrInp2, usrInp3, result)
-}
-
-func convertResult(usrInp1 string, usrInp2 float64, usrInp3 string, result float64){
-	switch {
-		case usrInp1 == "USD" && usrInp3 == "EUR":
-			fmt.Printf("%.2f доллар(ов) США = %.2f евро\n", usrInp2, result)
-		case usrInp1 == "USD" && usrInp3 == "RUB":
-			fmt.Printf("%.2f доллар(ов) США = %.2f рублей\n", usrInp2, result)
-
-		case usrInp1 == "EUR" && usrInp3 == "USD":
-			fmt.Printf("%.2f евро  = %.2f долларов\n", usrInp2, result)
-		case usrInp1 == "EUR" && usrInp3 == "RUB":
-			fmt.Printf("%.2f евро = %.2f рублей\n", usrInp2, result)
-
-		case usrInp1 == "RUB" && usrInp3 == "USD":
-			fmt.Printf("%.2f рубль(ей) = %.2f долларов\n", usrInp2, result)
-		case usrInp1 == "RUB" && usrInp3 == "EUR":
-			fmt.Printf("%.2f рубль(ей) = %.2f евро\n", usrInp2, result)
+	convMap := map[string]map[string]float64 {
+		"USD": {"EUR": 0.853, "RUB": 78.17},
+		"RUB": {"USD": 0.012, "EUR": 0.10},
+		"EUR": {"USD": 1.17, "RUB": 91.64},
 	}
+	valut, res, targVal, sum := userInput(convMap) 
+	if valut == targVal {
+		fmt.Println(sum)
+	}else {
+	convertResult(valut, res, targVal, sum)
+	}
+  // usrInp1, usrInp2, usrInp3 := userInput()
+	// result := converter(usrInp1, usrInp2, usrInp3)
 }
 
-func userInput() (string, float64, string) {
+func userInput(convMap map[string]map[string]float64) (string, float64, string, float64) {
 	var valut string
 	var targValut string
-  var sum float64
+	var sum float64
 for valut != "USD" && valut != "RUB" && valut != "EUR" {
 	fmt.Println("Добрый день! Программа для перевода одной валюты в другую. Введите валюту для конвертации(USD/RUB/EUR)")
 	fmt.Scan(&valut)
 	if valut != "USD" && valut != "EUR" && valut != "RUB" {
-    fmt.Println("Вы ввели неправильную валюту.")
-  //fmt.Scan(&valut)
+		fmt.Println("Вы ввели неправильную валюту.")
+	//fmt.Scan(&valut)
 	}
 }
+
 sum = inputAmount()
 
 for targValut != "USD" && targValut != "RUB" && targValut != "EUR" {
@@ -52,19 +43,43 @@ for targValut != "USD" && targValut != "RUB" && targValut != "EUR" {
 	//fmt.Scan(&targValut)
 	}
 }
-return valut, sum, targValut
+	res := sum * convMap[valut][targValut]
+	//delete(convMap, "USD")
+	return valut, res, targValut, sum
+	
 }
 
-func converter(valut string, sum float64, targValut string) float64 {
-  res := 0.0
-	m := map[string]map[string]float64 {
-		"USD": {"EUR": 0.853, "RUB": 78.17},
-		"RUB": {"USD": 0.012, "EUR": 0.10},
-		"EUR": {"USD": 1.17, "RUB": 91.64},
+
+func convertResult(valut string, result float64, targVal string, sum float64){
+	switch {
+		case valut == "USD" && targVal == "EUR":
+			fmt.Printf("%.2f доллар(ов) США = %.2f евро\n", sum, result)
+		case valut == "USD" && targVal == "RUB":
+			fmt.Printf("%.2f доллар(ов) США = %.2f рублей\n", sum, result)
+
+		case valut == "EUR" && targVal == "USD":
+			fmt.Printf("%.2f евро  = %.2f долларов\n", sum, result)
+		case valut == "EUR" && targVal == "RUB":
+			fmt.Printf("%.2f евро = %.2f рублей\n", sum, result)
+
+		case valut == "RUB" && targVal == "USD":
+			fmt.Printf("%.2f рубль(ей) = %.2f долларов\n", sum, result)
+		case valut == "RUB" && targVal == "EUR":
+			fmt.Printf("%.2f рубль(ей) = %.2f евро\n", sum, result)
 	}
-	res = sum * m[valut][targValut]
-return res
 }
+
+
+// func converter(valut string, sum float64, targValut string) float64 {
+//   res := 0.0
+// 	m := map[string]map[string]float64 {
+// 		"USD": {"EUR": 0.853, "RUB": 78.17},
+// 		"RUB": {"USD": 0.012, "EUR": 0.10},
+// 		"EUR": {"USD": 1.17, "RUB": 91.64},
+// 	}
+// 	res = sum * m[valut][targValut]
+// return res
+// }
 
 func inputAmount() float64 {
 	var sum float64
