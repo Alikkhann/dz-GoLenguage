@@ -10,7 +10,7 @@ func main() {
 		"RUB": {"USD": 0.012, "EUR": 0.10},
 		"EUR": {"USD": 1.17, "RUB": 91.64},
 	}
-	valut, res, targVal, sum := userInput(convMap) 
+	valut, res, targVal, sum := userInput(&convMap) 
 	if valut == targVal {
 		fmt.Println(sum)
 	}else {
@@ -20,7 +20,7 @@ func main() {
 	// result := converter(usrInp1, usrInp2, usrInp3)
 }
 
-func userInput(convMap map[string]map[string]float64) (string, float64, string, float64) {
+func userInput(convMap *map[string]map[string]float64) (string, float64, string, float64) {
 	var valut string
 	var targValut string
 	var sum float64
@@ -43,7 +43,7 @@ for targValut != "USD" && targValut != "RUB" && targValut != "EUR" {
 	//fmt.Scan(&targValut)
 	}
 }
-	res := sum * convMap[valut][targValut]
+	res := sum * (*convMap)[valut][targValut]
 	//delete(convMap, "USD")
 	return valut, res, targValut, sum
 	
