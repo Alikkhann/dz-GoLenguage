@@ -96,7 +96,7 @@ func MEDoperation(arr []int) {
 	if ln % 2 != 0 {
 		fmt.Print(slice[ln/2])
 	}else if ln % 2 == 0 {
-		res := (slice[ln/2-1] + slice[ln/2])/2
+		res := float64(slice[ln/2-1] + slice[ln/2])/2.0
 		fmt.Print(res)
 	}	
 }
