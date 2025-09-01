@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
-	"myProject/bins"
+	"myproject/bins"
+	"myproject/files"
+	"myproject/storage"
 )
 
 
@@ -14,8 +16,15 @@ func main() {
 	fmt.Println("Сколько списков вы хотите создать?")
 	fmt.Scan(&n)
 	for i := 0; i < n; i++ {
-	creatBin := bins.CreatBin()
+	creatBin := bins.CreateBin()
 	binList.Bins = append(binList.Bins, creatBin)
+	}
+	data, err := storage.ToBytes(binList)
+
+	files.WriteFile(data, "file.json")
+	_, err = files.ReadAnyFile("file.json")
+	if err != nil {
+		return
 	}
 	binList.PrintBinList()
 }

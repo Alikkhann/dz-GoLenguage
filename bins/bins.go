@@ -9,23 +9,23 @@ import (
 
 
 type BinList struct{
-	Bins []Bin
+	Bins []Bin					`json:"bins"`
 }
 
 type Bin struct{
-	id				string
-	private		bool
-	createdAt time.Time
-	name			string
+	Id				string		`json:"id"`
+	Private		bool			`json:"private"`
+	CreatedAt time.Time	`json:"createdAt"`
+	Name			string		`json:"name"`
 }
 
 func (binList BinList)PrintBinList() {
 	for _, value := range binList.Bins{
-		fmt.Printf("ID: %s | Имя: %s | Приватный: %t | Время создания: %s\n", value.id, value.name, value.private,  value.createdAt.Format("2006-01-02 15:04:05"))
+		fmt.Printf("ID: %s | Имя: %s | Приватный: %t | Время создания: %s\n", value.Id, value.Name, value.Private,  value.CreatedAt.Format("2006-01-02 15:04:05"))
 	}
 }
 
-func CreatBin() Bin {
+func CreateBin() Bin {
 	var id, name string
 	var private bool
 	for {
@@ -50,10 +50,10 @@ func CreatBin() Bin {
 	}
 
 	bin := Bin{
-		id:					id,			
-		private:		private,
-		createdAt: 	time.Now(),
-		name:				name,
+		Id:					id,			
+		Private:		private,
+		CreatedAt: 	time.Now(),
+		Name:				name,
 	}
 	return bin
 }
