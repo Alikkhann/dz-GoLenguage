@@ -15,12 +15,8 @@ func ReadAnyFile(name string) ([]byte, error) {
 	return data, nil
 }
 
-func ExamFile(name string) {
-	if filepath.Ext(name) == ".json" {
- 	 color.Red("Расширение переданного файла .JSON")
-	}else{
-		color.Red("Расширение переданного файла не .JSON")
-	}
+func ExamFile(name string) bool{
+ 	 return filepath.Ext(name) == ".json"
 }
 
 func WriteFile(myString []byte, name string) {

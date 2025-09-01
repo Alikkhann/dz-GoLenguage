@@ -18,17 +18,18 @@ func SaveBinlistToFile(bin bins.BinList, filename string) {
 	writeFile(file, filename)
 }
 
-func ReadJsonFile(filename string) {
+func ReadJsonFile(filename string) []byte{
 	data, err := files.ReadAnyFile(string(filename))
 	if err != nil {
 		color.Red("Ошибка")
-		return 
+		return data
 	}
 	var bins bins.BinList
-	err = json.Unmarshal(data, &bins)
+  err = json.Unmarshal(data, &bins)
 	if err != nil {
 		color.Red("Не удалось разобрать файл data.json")
 		}
+	return data
 	}
 
 
