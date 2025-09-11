@@ -3,13 +3,17 @@ package storage
 import (
 	"encoding/json"
 	"fmt"
-	"myproject/bins"
-	"myproject/files"
+	// "myproject/files"
 	"os"
 	"github.com/fatih/color"
+	// "myproject/bins"
 )
 
-func SaveBinlistToFile(bin bins.BinList, filename string) {
+type DbFiles interface {
+	ReadAnyFile(string) ([]byte, error)
+}
+
+func SaveBinlistToFile(bin any, filename string) {
 	file, err := ToBytes(bin) 
 	if err != nil {
 		color.Yellow("Не удалось преобразовать")
@@ -18,22 +22,22 @@ func SaveBinlistToFile(bin bins.BinList, filename string) {
 	writeFile(file, filename)
 }
 
-func ReadJsonFile(filename string) []byte{
-	data, err := files.ReadAnyFile(string(filename))
+func ReadJsonFile(db DbFiles, filename string, v interface{}) (error) {
+	data, err := db.ReadAnyFile(filename)
 	if err != nil {
 		color.Red("Ошибка")
-		return data
+		return err
 	}
-	var bins bins.BinList
-  err = json.Unmarshal(data, &bins)
+  err = json.Unmarshal(data, v)
 	if err != nil {
 		color.Red("Не удалось разобрать файл data.json")
-		}
-	return data
+		return err
+	}
+	return nil
 	}
 
 
-func 	ToBytes(bin bins.BinList) ([]byte, error) {
+func 	ToBytes(bin any) ([]byte, error) {
 	data, err := json.Marshal(bin)
 	if err != nil {
 		return nil, err

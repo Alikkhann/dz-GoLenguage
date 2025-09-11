@@ -4,10 +4,11 @@ import (
 	"os"
 	"path/filepath"
 	"fmt"
-	"github.com/fatih/color"
 )
 
-func ReadAnyFile(name string) ([]byte, error) {
+type Files struct {}
+
+func (f *Files) ReadAnyFile(name string) ([]byte, error) {
 	data, err := os.ReadFile(name)
 	if err != nil{
 		return nil, err
