@@ -12,7 +12,6 @@ import (
 
 func main() {
 	var filesmanager files.FilesManager = &files.Files{}
-	var storfiles storage.StorManager = &storage.StorManager{}
 	binList := bins.BinList{}
 	var binsmanager bins.BinsManager = binList
 	data, err := filesmanager.ReadAnyFile("file.json")
