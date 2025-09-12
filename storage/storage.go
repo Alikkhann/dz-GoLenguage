@@ -9,7 +9,7 @@ import (
 	// "myproject/bins"
 )
 
-type DbFiles interface {
+type StorManager interface {
 	ReadAnyFile(string) ([]byte, error)
 }
 
@@ -22,7 +22,7 @@ func SaveBinlistToFile(bin any, filename string) {
 	writeFile(file, filename)
 }
 
-func ReadJsonFile(db DbFiles, filename string, v interface{}) (error) {
+func ReadJsonFile(db StorManager, filename string, v interface{}) (error) {
 	data, err := db.ReadAnyFile(filename)
 	if err != nil {
 		color.Red("Ошибка")

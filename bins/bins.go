@@ -7,6 +7,10 @@ import (
 	"time"
 )
 
+type BinsManager interface {
+	CreateBin() Bin
+	PrintBinList()
+}
 
 type BinList struct{
 	Bins []Bin					`json:"bins"`
@@ -25,7 +29,7 @@ func (binList BinList)PrintBinList() {
 	}
 }
 
-func CreateBin() Bin {
+func (b BinList) CreateBin() Bin {
 	var id, name string
 	var private bool
 	for {

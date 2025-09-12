@@ -6,6 +6,11 @@ import (
 	"fmt"
 )
 
+type FilesManager interface {
+	ReadAnyFile(string) ([]byte, error)
+	WriteFile([]byte, string)
+}
+
 type Files struct {}
 
 func (f *Files) ReadAnyFile(name string) ([]byte, error) {
@@ -20,7 +25,7 @@ func ExamFile(name string) bool{
  	 return filepath.Ext(name) == ".json"
 }
 
-func WriteFile(myString []byte, name string) {
+func (f *Files) WriteFile(myString []byte, name string) {
 	file, err := os.Create(name)
 	if err != nil {
 		fmt.Println(err)

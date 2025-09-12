@@ -11,9 +11,11 @@ import (
 
 
 func main() {
+	var filesmanager files.FilesManager = &files.Files{}
+	var storfiles storage.StorManager = &storage.StorManager{}
 	binList := bins.BinList{}
-	filesStruct := files.Files{}
-	data, err := filesStruct.ReadAnyFile("file.json")
+	var binsmanager bins.BinsManager = binList
+	data, err := filesmanager.ReadAnyFile("file.json")
 	if err == nil {
 		err = json.Unmarshal(data, &binList)
 			if err != nil {
@@ -25,7 +27,7 @@ func main() {
 	fmt.Println("Сколько списков вы хотите создать?")
 	fmt.Scan(&n)
 	for i := 0; i < n; i++ {
-	creatBin := bins.CreateBin()
+	creatBin := binsmanager.CreateBin()
 	binList.Bins = append(binList.Bins, creatBin)
 }
 	data, err = storage.ToBytes(binList)
@@ -33,7 +35,7 @@ func main() {
 		fmt.Println("Ошибка!")
 		return
 	}
-	files.WriteFile(data, "file.json")
+	filesmanager.WriteFile(data, "file.json")
 	
-	binList.PrintBinList()
+	binsmanager.PrintBinList()
 }
