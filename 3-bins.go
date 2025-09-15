@@ -14,6 +14,7 @@ func main() {
 	var filesmanager files.FilesManager = &files.Files{}
 	binList := bins.BinList{}
 	var binsmanager bins.BinsManager = binList
+	
 	data, err := filesmanager.ReadAnyFile("file.json")
 	if err == nil {
 		err = json.Unmarshal(data, &binList)
