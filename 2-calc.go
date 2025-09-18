@@ -1,4 +1,4 @@
-package main
+ package main
 
 import (
 	"bufio"
@@ -8,16 +8,23 @@ import (
 	"strings"
 )
 
-func main() {
-	operation, arr := scanCalculation() 
-	
-	if operation == "AVG" {
-		AVGoperation(arr)
-	}else if operation == "SUM" {
-		SUMoperation(arr)
-	}else if operation == "MED" {
-		MEDoperation(arr)
+  var menuMap = map[string]func([]int) {
+		"AVG": AVGoperation,
+		"SUM": SUMoperation,
+		"MED": MEDoperation,
 	}
+
+  func main() {
+	operation, arr := scanCalculation() 
+	menu := menuMap[operation]
+	menu(arr)
+	// if operation == "AVG" {
+	// 	AVGoperation(arr)
+	// }else if operation == "SUM" {
+	// 	SUMoperation(arr)
+	// }else if operation == "MED" {
+	// 	MEDoperation(arr)
+	// }
 }
 
 func scanCalculation() (string, []int){
