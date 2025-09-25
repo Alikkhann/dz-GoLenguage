@@ -1,6 +1,17 @@
 package api
 
-import "myproject/config"
+import (
+	"fmt"
+	"myproject/bins"
+	"myproject/config"
+)
 
-func main() {
+func GetKey() {
+	key := config.NewConfig()
+	fmt.Println(key.Key)
 }
+
+func Print(*config.Config, bins.BinList) {
+	
+}
+
