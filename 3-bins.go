@@ -1,16 +1,23 @@
 package main
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"myproject/api"
 	"myproject/bins"
 	"myproject/files"
 	"myproject/storage"
+
+	"github.com/joho/godotenv"
 )
 
 
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Не удалось найти ENV файл")
+	}
 	var filesmanager files.FilesManager = &files.Files{}
 	binList := bins.BinList{}
 	var binsmanager bins.BinsManager = binList
@@ -36,6 +43,10 @@ func main() {
 		return
 	}
 	filesmanager.WriteFile(data, "file.json")
-	
+	id, err := api.Post(data)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(id)
 	binsmanager.PrintBinList()
 }
