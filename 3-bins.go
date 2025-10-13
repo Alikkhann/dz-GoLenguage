@@ -47,6 +47,9 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(id)
+
+	fmt.Println(id.Metadata.ID)
+	filesmanager.WriteFile([]byte(id.Metadata.ID), "file.id")
+
 	binsmanager.PrintBinList()
 }

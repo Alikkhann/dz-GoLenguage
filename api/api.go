@@ -3,15 +3,17 @@ package api
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
-	"fmt"
+	// "errors"
+	// "fmt"
 	"io"
 	"myproject/config"
 	"net/http"
 )
 
 	type getID struct {
-		ID string `json:"id"`
+		Metadata struct {
+			ID string `json:"id"`  // тут была ошибка что я не полностью указала структуру json ответа которого я ждал я туда не добавил Metadata поэтому выскакивала пустая строка
+		}`json:"metadata"`   // проверка тела ответа  fmt.Println("Ответ сервера:", string(body))
 	}
 
 func GetKey() string{
@@ -24,7 +26,7 @@ func GetKey() string{
 
 func Post(binss []byte) (*getID, error) {
 	key := GetKey()
-	
+
 	request, err := http.NewRequest("POST", "https://api.jsonbin.io/v3/b", bytes.NewBuffer(binss))
 	if err != nil { panic("Ошибка запроса!") }
 	request.Header.Set("Content-Type", "application/json")
@@ -35,10 +37,10 @@ func Post(binss []byte) (*getID, error) {
 	if err != nil {
 		return nil, err
 	}
-	if respClient.StatusCode != 201 {
-		fmt.Printf("Status Code: %d\n", respClient.StatusCode)
-		return nil, errors.New("ошибка ответа клиента")
-	}
+	// if respClient.StatusCode != 201 {
+	// 	fmt.Printf("Status Code: %d\n", respClient.StatusCode)
+	// 	return nil, errors.New("ошибка ответа клиента")
+	// }
 	
 
 	defer respClient.Body.Close()
