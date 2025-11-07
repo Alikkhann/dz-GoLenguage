@@ -5,10 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-
-
-	// "errors"
-	// "fmt"
 	"io"
 	"myproject/bins"
 	"myproject/config"
@@ -20,6 +16,7 @@ type ApiManager interface {
 	Post([]byte) (*getID, error)
 	Get(string, string) (*BinResponse, error)
 	Put(string, []byte) error
+	Delete(string, string) error
 }
 
 type ApiStruct struct {}
@@ -133,7 +130,7 @@ func (put *ApiStruct) Put(id string, binss []byte) error {
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("X-Master-Key", key)
 
-	client := http.Client{}
+	client := &http.Client{}
 	resp, err := client.Do(req)
 			if err != nil {
 				return err
@@ -143,6 +140,41 @@ func (put *ApiStruct) Put(id string, binss []byte) error {
 				// return err
 				    b, _ := io.ReadAll(resp.Body)
     				return fmt.Errorf("ошибка PUT: код=%v, ответ=%s", resp.StatusCode, b)
+			}
+
+	return nil
+}
+
+
+
+func (delete *ApiStruct) Delete(id string, key string) error{
+			if id == "" {
+				return fmt.Errorf("ID не передан") //универсальный способ создавать ошибки с нужными тебе сообщениями и параметрами.
+																								//Дает подробную ошибку для разработки, дебага и логирования. errors.New("some error") — только статичная строка без параметров.
+			}
+			if key == "" {
+				return fmt.Errorf("ключ не передан")
+			}
+
+	url := fmt.Sprintf("https://api.jsonbin.io/v3/b/%v", id)
+	req, err := http.NewRequest(http.MethodDelete, url, nil)
+			if err != nil {
+				return fmt.Errorf("Ошибка создания запроса на удаление: %v", err)
+			}
+
+	req.Header.Set("X-Master-Key", key)
+			
+	client := &http.Client{}
+	resp, err := client.Do(req)
+				if err != nil {
+				return err
+			}
+
+	defer resp.Body.Close()
+
+			if resp.StatusCode != 200 {
+				    b, _ := io.ReadAll(resp.Body)
+    				return fmt.Errorf("ошибка DELETE: код возврата=%v, ответ=%s", resp.StatusCode, b)
 			}
 
 	return nil

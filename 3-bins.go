@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	action := flag.String("action", "", "create(POST)/get/updata(PUT)")
+	action := flag.String("action", "", "create(POST)/get/updata(PUT)/delete")
 	flag.Parse()
 	err := godotenv.Load()
 			if err != nil {
@@ -98,6 +98,24 @@ func main() {
 				}
 		fmt.Println(string(dataToBytes))
 			}
+		}
+	if *action == "delete" {
+		key := apimanager.GetKey()
+
+	  readId, err := filesmanager.ReadAnyFile("file.id")
+				if err != nil {
+					fmt.Println("Не удалось прочитать ID")
+					fmt.Println("Сначала создайте(отправьте) create запрос, а потом читайте ID")
+					return
+				}
+
+		err = apimanager.Delete(string(readId), key)
+				if err != nil {
+					fmt.Println("Не удалось удалить Bin")
+					fmt.Println(err)
+					return
+				}
+			
 		}
 		if *action == "" {
 			fmt.Println("Выберите действие (go run 3-bins --action='create/get/update')")

@@ -39,4 +39,3 @@ func (f *Files) WriteFile(myString []byte, name string) {
 	}
 	fmt.Println("Запись успешна")
 }
-
