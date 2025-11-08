@@ -10,17 +10,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func TestCreateBin(t *testing.T) {
-	err := godotenv.Load()
-			if err != nil {
-				t.Error("Не удалось найти ENV файл")
-			}
-			
-	var apimanager api.ApiManager = &api.ApiStruct{}
-
-	key := apimanager.GetKey()
-
-	testData := bins.BinList{
+	var testData = bins.BinList{
 		Bins: []bins.Bin{
 			{
 				Id: "test-create-unique",
@@ -30,26 +20,29 @@ func TestCreateBin(t *testing.T) {
 			},
 		},
 	}
-  
+
+func TestCreateBin(t *testing.T) {
+	err := godotenv.Load()
+			if err != nil {
+				t.Error("Не удалось найти ENV файл")
+			}
+	var apimanager api.ApiManager = &api.ApiStruct{}
+	key := apimanager.GetKey()
 	data, err := json.Marshal(testData)
-	if err != nil {
-		t.Error(err)
-	}
-
-	if err != nil {
-		t.Error(err)
-	}
-
+			if err != nil {
+				t.Error(err)
+			}
+			if err != nil {
+				t.Error(err)
+			}
 	id, err := apimanager.Post(data)
-		if err != nil {
-		t.Error(err)
-	  }
-
-	if id == nil {
-		t.Errorf("ожидалась длина ответа больше 0, получили %s", id)
-	}
-	err = apimanager.Delete(id.Metadata.ID, key)
-	if err != nil {
-		t.Error("Ошибка удаления")
-	}
+			if err != nil {
+			t.Error(err)
+			}
+			if id == nil {
+				t.Errorf("ожидалась длина ответа больше 0, получили %s", id)
+			}
+	t.Cleanup(func()  {
+		apimanager.Delete(id.Metadata.ID, key)
+	})
 }
