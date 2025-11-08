@@ -1,9 +1,12 @@
 package api_test
 
 import (
-	"testing"
-	"myproject/files"
+	"encoding/json"
 	"myproject/api"
+	"myproject/bins"
+	"testing"
+	"time"
+
 	"github.com/joho/godotenv"
 )
 
@@ -13,11 +16,26 @@ func TestCreateBin(t *testing.T) {
 				t.Error("Не удалось найти ENV файл")
 			}
 			
-			var filesmanager files.FilesManager = &files.Files{}
-			var apimanager api.ApiManager = &api.ApiStruct{}
-			
+	var apimanager api.ApiManager = &api.ApiStruct{}
+
 	key := apimanager.GetKey()
-	data, err := filesmanager.ReadAnyFile("testing_file.json")
+
+	testData := bins.BinList{
+		Bins: []bins.Bin{
+			{
+				Id: "test-create-unique",
+      	Private: true,
+     	 	CreatedAt: time.Now(),
+     	  Name: "test-create-bin",
+			},
+		},
+	}
+  
+	data, err := json.Marshal(testData)
+	if err != nil {
+		t.Error(err)
+	}
+
 	if err != nil {
 		t.Error(err)
 	}
