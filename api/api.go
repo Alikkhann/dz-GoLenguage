@@ -13,10 +13,10 @@ import (
 
 type ApiManager interface {
 	GetKey() string
-	Post([]byte) (*getID, error)
-	Get(string, string) (*BinResponse, error)
-	Put(string, []byte) error
-	Delete(string, string) error
+	Post(binss []byte) (*getID, error)
+	Get(id string, key string) (*BinResponse, error)
+	Put(id string, binss []byte) error
+	Delete(id string, key string) error
 }
 
 type ApiStruct struct {}
