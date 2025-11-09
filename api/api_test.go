@@ -1,19 +1,23 @@
 package api_test
 
 import (
+	"fmt"
 	"encoding/json"
 	"myproject/api"
 	"myproject/bins"
 	"testing"
 	"time"
-
 	"github.com/joho/godotenv"
 )
 
-	var testDataPost = bins.BinList{
+func generateUniqueId() string {
+	return fmt.Sprintf("test-%d", time.Now().UnixNano())
+}
+
+	var testData = bins.BinList{
 		Bins: []bins.Bin{
 			{
-				Id: "test-create-unique",
+				Id: generateUniqueId(),
       	Private: true,
      	 	CreatedAt: time.Now(),
      	  Name: "test-create-bin",
@@ -21,16 +25,7 @@ import (
 		},
 	}
 
-		var testDataPut = bins.BinList{
-		Bins: []bins.Bin{
-			{
-				Id: "test-create-unique",
-      	Private: true,
-     	 	CreatedAt: time.Now(),
-     	  Name: "test-create-bin",
-			},
-		},
-	}
+
 
 func TestCreateBin(t *testing.T) {
 	err := godotenv.Load()
@@ -39,7 +34,7 @@ func TestCreateBin(t *testing.T) {
 			}
 	var apimanager api.ApiManager = &api.ApiStruct{}
 	key := apimanager.GetKey()
-	data, err := json.Marshal(testDataPost)
+	data, err := json.Marshal(testData)
 			if err != nil {
 				t.Error(err)
 			}
@@ -66,7 +61,7 @@ func TestGetBin(t *testing.T) {
 			}
 	var apimanager api.ApiManager = &api.ApiStruct{}
 	key := apimanager.GetKey()
-	data, err := json.Marshal(testDataPost)
+	data, err := json.Marshal(testData)
 			if err != nil {
 				t.Error(err)
 			}
@@ -84,8 +79,8 @@ func TestGetBin(t *testing.T) {
 			if err != nil {
 			t.Error(err)
 			}
-			if dataGet.Record.Bins[0].Name != testDataPost.Bins[0].Name {
-				t.Errorf("Ожидалось %s, получили %s", testDataPost.Bins[0].Name, dataGet.Record.Bins[0].Name)
+			if dataGet.Record.Bins[0].Name != testData.Bins[0].Name {
+				t.Errorf("Ожидалось %s, получили %s", testData.Bins[0].Name, dataGet.Record.Bins[0].Name)
 			}
 	t.Cleanup(func() {
 		apimanager.Delete(id.Metadata.ID, key)
@@ -101,7 +96,7 @@ func TestPutBin(t *testing.T) {
 			}
 	var apimanager api.ApiManager = &api.ApiStruct{}
 	key := apimanager.GetKey()
-	data, err := json.Marshal(testDataPost)
+	data, err := json.Marshal(testData)
 			if err != nil {
 				t.Error(err)
 			}
@@ -114,9 +109,10 @@ func TestPutBin(t *testing.T) {
 			}
 			if id == nil {
 				t.Errorf("ожидалась длина ответа больше 0, получили %s", id)
-			}	
-	
-	dataPut, err := json.Marshal(testDataPost)
+			}
+				
+	testDataPut := testData
+	dataPut, err := json.Marshal(testDataPut)
 			if err != nil {
 				t.Error(err)
 			}
@@ -130,7 +126,7 @@ func TestPutBin(t *testing.T) {
 			if err != nil {
 			t.Error(err)
 			}
-			
+
 	if testDataPut.Bins[0].Name != dataGet.Record.Bins[0].Name {
 		t.Errorf("Ожидалось %v, получили %s", testDataPut.Bins[0].Name, dataGet.Record.Bins[0].Name)
 	}
